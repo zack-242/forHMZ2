@@ -21,7 +21,16 @@ Route::get('/', function () {
 });
 
 
+Route::get('/persons/get' , function(){
+    $q = Persone::select("NOM" ,"PRENOM", "ADRESSE_1","DATE_NAISSANCE")->where('ADRESSE_1', '!=' , null)->where('DATE_NAISSANCE', '!=' , null)->where('NOM', '!=' , null)->where('PRENOM', '!=' , null); 
+    /* dd($q); */
+    return DataTables($q)->make(true);
+})->name('api.persons.index');
+
+
 Route::post('display/export', 'PersoneController@export')->name('exportpage');
 Route::get('/tst', 'TstContrpller@index');
+
+
 
 

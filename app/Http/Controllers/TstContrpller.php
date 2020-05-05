@@ -13,6 +13,8 @@ class TstContrpller extends Controller
         return view('/tst', compact('person'));
     }
 
+
+
     /* public function datatable(){
         $person = Persone::all();
         return view('tst', compact('person'));
