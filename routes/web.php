@@ -22,7 +22,15 @@ Route::get('/', function () {
 
 
 Route::get('/persons/get' , function(){
-    $q = Persone::select("NOM" ,"PRENOM", "ADRESSE_1","DATE_NAISSANCE")->where('ADRESSE_1', '!=' , null)->where('DATE_NAISSANCE', '!=' , null)->where('NOM', '!=' , null)->where('PRENOM', '!=' , null); 
+    $q = Persone::select("FIC","CIVILITE","NOM" ,
+                            "PRENOM",
+                             "ADRESSE_1",
+                             /* "CODE_POSTAL", */
+                             "VILLE",
+                             /* "NO_TELE", */
+                             "INDIC",
+                             "EMAIL",
+                             "DATE_NAISSANCE")->where('ADRESSE_1', '!=' , null)->where('DATE_NAISSANCE', '!=' , null)->where('NOM', '!=' , null)->where('PRENOM', '!=' , null); 
     /* dd($q); */
     return DataTables($q)->make(true);
 })->name('api.persons.index');
