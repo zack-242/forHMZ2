@@ -132,7 +132,7 @@ function hide_show_table(col_name)
       <label>
         <input type="checkbox" class="option-input checkbox" type="checkbox"  value="hide" name="ADRESSE_1" onchange="hide_show_table(this.id);"  id="adresse_col" "/>Adresse
       </label>
-      <label>
+      <label> 
         <input type="checkbox" class="option-input checkbox" type="checkbox" value="hide"  name="DATE_NAISSANCE" onchange="hide_show_table(this.id);" id="date_col"/>Date
       </label>
     </form>

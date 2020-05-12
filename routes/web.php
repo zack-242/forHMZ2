@@ -25,12 +25,12 @@ Route::get('/persons/get' , function(){
     $q = Persone::select("FIC","CIVILITE","NOM" ,
                             "PRENOM",
                              "ADRESSE_1",
-                             /* "CODE_POSTAL", */
+                             "CODE_POSTAL",
                              "VILLE",
                              /* "NO_TELE", */
                              "INDIC",
                              "EMAIL",
-                             "DATE_NAISSANCE")->where('ADRESSE_1', '!=' , null)->where('DATE_NAISSANCE', '!=' , null)->where('NOM', '!=' , null)->where('PRENOM', '!=' , null); 
+                             "DATE_NAISSANCE")->where('ADRESSE_1', '!=' , null)->where('DATE_NAISSANCE', '!=' , null)->where('NOM', '!=' , null)->where('PRENOM', '!=' , null)->where('CODE_POSTAL', '!=' , null ); 
     /* dd($q); */
     return DataTables($q)->make(true);
 })->name('api.persons.index');

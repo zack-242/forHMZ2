@@ -90,7 +90,7 @@ a:active {
                       - <a class="toggle-vis" data-column="2" href="">NOM</a>
                       - <a class="toggle-vis" data-column="3" href="">PRENOM</a>
                       - <a class="toggle-vis" data-column="4" href="">ADRESSE</a> 
-                      {{-- - <a class="toggle-vis" data-column="5" href="">CODE POSTAL</a>  --}}
+                      - <a class="toggle-vis" data-column="5" href="">CODE POSTAL</a>
                       - <a class="toggle-vis" data-column="5" href="">VILLE</a> 
                       {{-- - <a class="toggle-vis" data-column="7" href="">NO TELE</a> --}} 
                       - <a class="toggle-vis" data-column="6" href="">INDIC</a> 
@@ -108,30 +108,31 @@ a:active {
           <th id="name_col_head" class="name_col_head">NOM</th>
           <th id="prenom_col_head" class="prenom_col_head">PRENOM</th>
           <th id="adresse_col_head" class="adresse_col_head">ADRESSE</th>
-          {{-- <th id="codep_col_head" class="codep_col_head">CODE POSTAL</th> --}}
+          <th id="codep_col_head" class="codep_col_head">CODE POSTAL</th> 
           <th id="ville_col_head" class="ville_col_head">VILLE</th>
           {{-- <th id="tel_col_head" class="tel_col_head">NO TELE</th> --}}
           <th id="indic_col_head" class="indic_col_head">INDIC</th>
-          <th id="email_col_head" class="email_col_head">EMAIL</th>
+          <th id="email_col_head" class="email_col_head">EMAIL</th><br>
           <th id="date_col_head" class="date_col_head">DATE_NAISSANCE</th>          
         </tr>
+        <tfoot>
+          <tr>
+              <th>Fic</th>
+              <th>Civlite</th>
+              <th>Nom</th>
+              <th>Prenom</th>
+              <th>Adresse</th>
+              <th>code postal</th>
+              <th>ville</th>
+              <th>indic</th>
+              <th>email</th>
+              <th>Date Naissance</th>            
+          </tr>
+      </tfoot>
       </thead>
       <tbody>
       </tbody>
-      <tfoot>
-        <tr>
-            <th>Fic</th>
-            <th>Civlite</th>
-            <th>Nom</th>
-            <th>Prenom</th>
-            <th>Adresse</th>
-            {{-- <th>code postal</th> --}}
-            <th>ville</th>
-            <th>indic</th>
-            <th>email</th>
-            <th>Date Naissance</th>            
-        </tr>
-    </tfoot>
+      
   </div>
     </table>
   </div>
@@ -227,7 +228,7 @@ a:active {
       };
       var csvFile = '';
       
-      for (var i = 0; i < rows.length; i++) {
+      for (var i = 0; i < rows.length; i++) { 
           csvFile += processRow(rows[i]);
       }
       var blob = new Blob([csvFile], { type: 'text/csv;charset=utf-8;' });
@@ -258,13 +259,33 @@ a:active {
           { "data": "NOM" /* ,"visible": false  */},
           { "data": "PRENOM" },
           { "data": "ADRESSE_1" },
-          /* { "data": "CODE_POSTAL" }, */
+          { "data": "CODE_POSTAL" },
           { "data": "VILLE" },
           /* { "data": "NO_TELE" }, */
           { "data": "INDIC" },
           { "data": "EMAIL" },
           { "data": "DATE_NAISSANCE" }
-        ]
+        ] ,
+        initComplete: function () {
+            this.api().columns(5).every( function () {
+                var column = this;
+                var select = $('<select><option value=""></option></select>')
+                    .appendTo( $(column.footer()).empty() )
+                    .on( 'change', function () {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+ 
+                        column
+                            .search( val ? '^'+val+'$' : '', true, false )
+                            .draw();
+                    } );
+ 
+                column.data().unique().sort().each( function ( d, j ) {
+                    select.append( '<option value="'+d+'">'+d+'</option>' )
+                } );
+            } );
+        } 
        });
       //  var items = [1];
 
@@ -279,6 +300,7 @@ a:active {
           //  console.log($(this).attr('data-column'))
           // }
       } );
+
       //
       $('#example tfoot th').each( function () {
         var title = $(this).text();
